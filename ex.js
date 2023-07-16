@@ -125,28 +125,42 @@ const jobs = [
   },
 ]
 
-const searchJobs = function (titleQuery, locationQuery) {
-  const result = []
-  for (let i = 0; i < jobs.length; i++) {
-    let jobsList = jobs[i].title
-    let locList = jobs[i].location
-    if (jobsList.toLowerCase().includes(titleQuery) && locList.toUpperCase().includes(locationQuery)){
-      result.push(jobs[i])
-    } 
+function searchJobs (titleQuery, locationQuery) {
+  const results = []
+
+  const lowerCaseTitleQuery = titleQuery.toLowerCase()
+  const lowerCaseLocationQuery = locationQuery.toLowerCase()
+
+  for (const job of jobs) {
+
+    if(job.title.toLowerCase().includes(lowerCaseTitleQuery) && job.location.toLowerCase().includes(lowerCaseLocationQuery)) {
+
+      results.push(job)
+    }
+  }
+  
+    
+    return {
+      results,
+      count: results.length
+    }
   } 
-  return result
+
+function searchValue(){
+  const yourJob = document.querySelector('#yourJob').value
+  const yourLoc = document.querySelector('#yourLoc').value
+  
+  const data = searchJobs(yourJob, yourLoc)
+  
+  const ulResults = document.querySelector('#results')
+
+  for (const result of data.results) {
+    const li = document.createElement('li')
+
+    li.innerHTML = "<div><p>" + result.title + "</p> <p>" + result.location + "</p></div>"
+
+    ulResults.appendChild(li)
 }
 
-const data = searchJobs('developer', 'US')
-// console.log(data)
 
-let count = data.length
-
-//console.log(count)
-
-const searchEnd = {
-  data,
-  count
 }
-// console.log(searchEnd)
-
